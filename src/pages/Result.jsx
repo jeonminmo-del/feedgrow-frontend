@@ -1,16 +1,80 @@
 // Result.jsx - 분석 결과 화면
 // URL: /result
 // 좌측: AI 분석 요약 통계 / 우측: 정화된 댓글 리스트
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Sprout, ArrowLeft, BarChart2, ShieldCheck, MessageSquare, Zap } from 'lucide-react'
+import { Sprout, ArrowLeft, BarChart2, ShieldCheck, MessageSquare, Zap, Copy, ImageDown, Check } from 'lucide-react'
 import CommentCard from '../components/CommentCard'
-import { dummyComments, dummyStats } from '../data/dummyComments'
+import { dummyComments, dummyStats, dummyInsights } from '../data/dummyComments'
 
 function StatItem({ label, value, color = 'text-slate-900' }) {
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-4 flex flex-col gap-1 shadow-sm">
+    <div className="bg-white border border-sky-100 rounded-xl p-4 flex flex-col gap-1 shadow-sm">
       <span className="text-slate-400 text-xs">{label}</span>
       <span className={`text-2xl font-bold ${color}`}>{value}</span>
+    </div>
+  )
+}
+
+// AI 인사이트 카드 컴포넌트
+function InsightSection() {
+  const [copied, setCopied] = useState(false)
+
+  // 복사 버튼: 모든 인사이트를 텍스트로 클립보드에 복사
+  const handleCopy = () => {
+    const text = dummyInsights
+      .map((item) => `${item.id}. [${item.category}]\n${item.content}`)
+      .join('\n\n')
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
+  return (
+    <div className="bg-white border border-sky-100 rounded-2xl shadow-sm overflow-hidden mb-6">
+      {/* 카드 헤더 */}
+      <div className="flex items-center justify-between px-6 py-4 border-b border-sky-50">
+        <div className="flex flex-col gap-0.5">
+          <div className="flex items-center gap-2">
+            <Zap size={16} className="text-teal-500" />
+            <h3 className="text-slate-800 font-semibold text-sm">AI 인사이트 요약</h3>
+          </div>
+          <p className="text-slate-400 text-xs">건설적 의견을 카테고리별로 묶었습니다.</p>
+        </div>
+
+        {/* 복사 / 이미지 버튼 */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleCopy}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 transition-colors text-xs"
+          >
+            {copied ? <Check size={13} className="text-teal-500" /> : <Copy size={13} />}
+            {copied ? '복사됨' : '복사'}
+          </button>
+          <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 transition-colors text-xs">
+            <ImageDown size={13} />
+            이미지
+          </button>
+        </div>
+      </div>
+
+      {/* 인사이트 목록 */}
+      <div className="divide-y divide-sky-50">
+        {dummyInsights.map((item) => (
+          <div key={item.id} className="flex gap-4 px-6 py-4 hover:bg-sky-50/30 transition-colors">
+            {/* 번호 원형 */}
+            <div className="w-7 h-7 rounded-full bg-teal-100 text-teal-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+              {item.id}
+            </div>
+            {/* 내용 */}
+            <div className="flex flex-col gap-1">
+              <span className="text-teal-600 text-xs font-semibold">{item.category}</span>
+              <p className="text-slate-600 text-sm leading-relaxed">{item.content}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -19,10 +83,10 @@ export default function Result() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-sky-100 via-cyan-50 to-white flex flex-col">
 
       {/* 네비게이션 */}
-      <nav className="flex items-center justify-between px-6 py-4 bg-white border-b border-slate-100 shadow-sm shrink-0">
+      <nav className="flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-sm border-b border-sky-100 shadow-sm shrink-0">
         <button
           onClick={() => navigate('/input')}
           className="flex items-center gap-2 text-slate-400 hover:text-slate-700 transition-colors text-sm"
@@ -44,11 +108,11 @@ export default function Result() {
         </div>
       </nav>
 
-      {/* 본문 — 데스크탑: 좌우 2열, 모바일: 상하 */}
+      {/* 본문 */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
 
         {/* ── 좌측 패널: 통계 ── */}
-        <aside className="md:w-80 lg:w-96 shrink-0 border-b md:border-b-0 md:border-r border-slate-200 p-6 flex flex-col gap-5 md:overflow-y-auto bg-white">
+        <aside className="md:w-80 lg:w-96 shrink-0 border-b md:border-b-0 md:border-r border-sky-100 p-6 flex flex-col gap-5 md:overflow-y-auto bg-white/60 backdrop-blur-sm">
 
           <div className="flex items-center gap-2">
             <BarChart2 size={18} className="text-teal-500" />
@@ -56,7 +120,7 @@ export default function Result() {
           </div>
 
           {/* 채널 정보 */}
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col gap-1">
+          <div className="bg-sky-50 border border-sky-100 rounded-xl p-4 flex flex-col gap-1">
             <span className="text-slate-400 text-xs">분석된 영상</span>
             <span className="text-slate-700 text-sm truncate">{dummyStats.채널명}</span>
             <span className="text-slate-400 text-xs">분석 소요: {dummyStats.분석소요}</span>
@@ -76,7 +140,7 @@ export default function Result() {
               <span className="text-slate-500 text-xs">악플 비율</span>
               <span className="text-red-500 text-xs font-semibold">{dummyStats.악플비율}%</span>
             </div>
-            <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div className="h-2 bg-sky-100 rounded-full overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-red-400 to-orange-400 rounded-full"
                 style={{ width: `${dummyStats.악플비율}%` }}
@@ -87,7 +151,7 @@ export default function Result() {
               <span className="text-slate-500 text-xs">정화 성공률</span>
               <span className="text-teal-500 text-xs font-semibold">100%</span>
             </div>
-            <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div className="h-2 bg-sky-100 rounded-full overflow-hidden">
               <div className="h-full w-full bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full" />
             </div>
           </div>
@@ -106,7 +170,7 @@ export default function Result() {
           </div>
 
           {/* 안내 */}
-          <div className="mt-auto bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-start gap-3">
+          <div className="mt-auto bg-sky-50 border border-sky-100 rounded-xl p-4 flex items-start gap-3">
             <MessageSquare size={16} className="text-slate-400 shrink-0 mt-0.5" />
             <p className="text-slate-400 text-xs leading-relaxed">
               원본 악플은 기본적으로 블러 처리됩니다.
@@ -137,6 +201,10 @@ export default function Result() {
             </div>
           </div>
 
+          {/* AI 인사이트 요약 카드 */}
+          <InsightSection />
+
+          {/* 댓글 카드 리스트 */}
           <div className="flex flex-col gap-4">
             {dummyComments.map((comment) => (
               <CommentCard key={comment.id} comment={comment} />
