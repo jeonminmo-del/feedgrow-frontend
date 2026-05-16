@@ -1,8 +1,7 @@
 // InputLink.jsx - 링크 입력 화면
-// URL: /input  →  분석하기 클릭 후 3초 로딩 → /result 이동
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Link2, Loader2, Sprout, ArrowLeft } from 'lucide-react'
+import { Link2, Loader2, Sprout } from 'lucide-react'
 
 export default function InputLink() {
   const navigate = useNavigate()
@@ -20,57 +19,51 @@ export default function InputLink() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-100 via-cyan-50 to-white flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 flex flex-col relative overflow-hidden">
 
-      {/* 배경 장식 */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-cyan-300/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-indigo-200/20 rounded-full blur-3xl pointer-events-none" />
 
-      {/* 네비게이션 */}
-      <nav className="relative z-10 flex items-center justify-between px-6 py-5 bg-white/70 backdrop-blur-sm border-b border-sky-100">
-        <button
-          onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-slate-400 hover:text-slate-700 transition-colors text-sm"
-        >
-          <ArrowLeft size={16} />
-          뒤로
-        </button>
+      {/* 네비게이션 — 로고만 표시 (뒤로 버튼 없음) */}
+      <nav className="relative z-10 flex items-center justify-center px-6 py-5 bg-white/50 backdrop-blur-sm border-b border-indigo-100">
         <div className="flex items-center gap-2">
           <Sprout size={18} className="text-teal-500" />
           <span className="font-title font-bold text-slate-900 text-lg tracking-tight">
             FEED<span className="text-teal-500">GROW</span>
           </span>
         </div>
-        <div className="w-16" />
       </nav>
 
       {/* 메인 */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 gap-8">
 
-        {/* 헤드라인 */}
-        <div className="text-center flex flex-col items-center gap-4 max-w-lg">
+        <div className="text-center flex flex-col items-center gap-4 w-full max-w-lg">
 
-          {/* 상단 뱃지 텍스트 박스 */}
-          <div className="flex items-center gap-2 px-4 py-2 bg-white/80 border border-sky-200 rounded-full shadow-sm text-sm text-teal-600 font-medium">
-            <Sprout size={15} className="text-teal-500" />
-            마음이 다치지 않는 피드백 도구
+          {/* 상단 뱃지 */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/70 border border-indigo-100 rounded-full shadow-sm">
+            <Sprout size={14} className="text-teal-500 shrink-0" />
+            {/* 모바일에서 줄바꿈 방지 */}
+            <span className="text-xs sm:text-sm text-teal-600 font-medium whitespace-nowrap">
+              마음이 다치지 않는 피드백 도구
+            </span>
           </div>
 
-          {/* 메인 문구 */}
-          <h2 className="text-slate-900 text-3xl md:text-4xl font-bold leading-tight">
-            비난은 덜어내고,<br />
-            <span className="text-teal-500">비판은 성장으로</span> 연결합니다.
+          {/* 메인 문구 — 모바일 폰트 작게, 웹은 크게 유지 */}
+          <h2 className="text-slate-900 text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-balance">
+            비난은 덜어내고,{' '}
+            <span className="text-teal-500">비판은 성장으로</span>{' '}
+            연결합니다.
           </h2>
-          <p className="text-slate-500 text-sm md:text-base">
-            YouTube 영상 링크를 입력하면 AI가 댓글을 분석하고<br />
-            악플을 건설적인 피드백으로 정화해드립니다.
+
+          {/* 서브 텍스트 — br 제거, 자연스럽게 줄바꿈 */}
+          <p className="text-slate-500 text-sm md:text-base leading-relaxed max-w-sm">
+            YouTube 영상 링크를 입력하면 AI가 댓글을 분석하고 악플을 건설적인 피드백으로 정화해드립니다.
           </p>
         </div>
 
         {/* 입력 폼 */}
         <div className="w-full max-w-xl flex flex-col gap-4">
 
-          {/* 입력창 */}
-          <div className="flex items-center gap-3 bg-white border border-sky-200 rounded-2xl px-5 py-4 focus-within:border-teal-400 focus-within:shadow-sm transition-all shadow-sm">
+          <div className="flex items-center gap-3 bg-white/80 border border-indigo-100 rounded-2xl px-5 py-4 focus-within:border-teal-400 focus-within:shadow-sm transition-all shadow-sm">
             <Link2 size={20} className="text-slate-400 shrink-0" />
             <input
               type="url"
@@ -79,11 +72,10 @@ export default function InputLink() {
               onKeyDown={handleKeyDown}
               placeholder="https://www.youtube.com/watch?v=..."
               disabled={isLoading}
-              className="flex-1 bg-transparent text-slate-800 placeholder:text-slate-300 text-sm outline-none disabled:opacity-50"
+              className="flex-1 bg-transparent text-slate-800 placeholder:text-slate-300 text-sm outline-none disabled:opacity-50 min-w-0"
             />
           </div>
 
-          {/* 분석하기 버튼 */}
           <button
             onClick={handleAnalyze}
             disabled={isLoading || !url.trim()}
@@ -109,7 +101,7 @@ export default function InputLink() {
           )}
         </div>
 
-        <p className="text-slate-300 text-xs text-center">
+        <p className="text-slate-400 text-xs text-center">
           * 프로토타입은 가상의 댓글 데이터를 사용해 분석 결과를 시연합니다.
         </p>
       </main>
