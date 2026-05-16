@@ -19,9 +19,11 @@ export default function InputLink() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-blue-50 to-violet-200 flex flex-col relative overflow-hidden">
 
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-indigo-200/20 rounded-full blur-3xl pointer-events-none" />
+      {/* 배경 컬러 블롭 */}
+      <div className="absolute -top-20 -left-20 w-96 h-96 bg-cyan-200/50 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-purple-300/40 rounded-full blur-3xl pointer-events-none" />
 
       {/* 네비게이션 — 로고만 표시 (뒤로 버튼 없음) */}
       <nav className="relative z-10 flex items-center justify-center px-6 py-5 bg-white/50 backdrop-blur-sm border-b border-indigo-100">
@@ -47,11 +49,10 @@ export default function InputLink() {
             </span>
           </div>
 
-          {/* 메인 문구 — 모바일 폰트 작게, 웹은 크게 유지 */}
-          <h2 className="text-slate-900 text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-balance">
-            비난은 덜어내고,{' '}
-            <span className="text-teal-500">비판은 성장으로</span>{' '}
-            연결합니다.
+          {/* 메인 문구 */}
+          <h2 className="text-slate-900 text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
+            <span className="block">비난은 덜어내고,</span>
+            <span className="block"><span className="text-teal-500">비판은 성장으로</span> 연결합니다.</span>
           </h2>
 
           {/* 서브 텍스트 — br 제거, 자연스럽게 줄바꿈 */}

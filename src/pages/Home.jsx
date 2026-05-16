@@ -6,9 +6,12 @@ export default function Home() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 flex flex-col items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-blue-50 to-violet-200 flex flex-col items-center justify-center relative overflow-hidden">
 
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-indigo-200/30 rounded-full blur-3xl pointer-events-none" />
+      {/* 배경 컬러 블롭 */}
+      <div className="absolute -top-20 -left-20 w-96 h-96 bg-cyan-200/50 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-purple-300/40 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-200/20 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center gap-8 px-6 text-center">
 

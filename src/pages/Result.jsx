@@ -72,7 +72,10 @@ export default function Result() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-blue-50 to-violet-200 flex flex-col relative overflow-hidden">
+      {/* 배경 컬러 블롭 */}
+      <div className="absolute -top-20 -left-20 w-96 h-96 bg-cyan-200/40 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-purple-300/30 rounded-full blur-3xl pointer-events-none" />
 
       {/* 네비게이션 */}
       <nav className="flex items-center justify-between px-6 py-4 bg-white/60 backdrop-blur-sm border-b border-indigo-100 shadow-sm shrink-0">
